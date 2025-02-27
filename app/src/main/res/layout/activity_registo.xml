@@ -10,6 +10,20 @@
     tools:context=".MainActivity">
 
     <EditText
+        android:id="@+id/preencherpass2"
+        android:layout_width="229dp"
+        android:layout_height="39dp"
+        android:layout_marginHorizontal="32dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.475" />
+
+    <EditText
         android:id="@+id/preencheremail"
         android:layout_width="229dp"
         android:layout_height="43dp"
@@ -24,43 +38,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.415" />
 
+
     <EditText
-        android:id="@+id/preencherpass"
+        android:id="@+id/preencherpass2"
         android:layout_width="229dp"
         android:layout_height="39dp"
         android:layout_marginHorizontal="32dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Repetir Password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:text="Save credentials"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538" />
-
-    <Button
-        android:id="@+id/botaologin"
-        android:layout_width="232dp"
-        android:layout_height="43dp"
-        android:backgroundTint="@color/laranja"
-        android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582" />
+        app:layout_constraintVertical_bias="0.531" />
 
     <Button
         android:id="@+id/botaoregisto"
@@ -70,9 +61,9 @@
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.645" />
+        app:layout_constraintVertical_bias="0.677" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
