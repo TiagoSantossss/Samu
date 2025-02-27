@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "258972663841",
+    "project_id": "samu-7b374",
+    "storage_bucket": "samu-7b374.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258972663841:android:3d73ea2f48e8a07d1ea360",
+        "android_client_info": {
+          "package_name": "com.example.samu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKZd9AOkimqIi_6pkGDklCMRPVyrv4zAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
