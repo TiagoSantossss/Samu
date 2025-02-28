@@ -18,6 +18,8 @@
 
         <activity android:name=".Registo" android:exported="false" />
 
+        <activity android:name=".Mapa.MapsActivity" android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -30,7 +32,7 @@
         <!-- Chave da API do Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBf1R1Y_OA1fTdJMjr6ZgKHsJPpNF9pBNE" />
+            android:value="AIzaSyAey0FaPZsv37x_uBSl8aLhrxAcsg8lY6M" />
 
     </application>
 </manifest>
