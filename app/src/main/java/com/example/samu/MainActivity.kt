@@ -93,24 +93,30 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
-            try {
-                val credential = oneTapClient.getSignInCredentialFromIntent(data)
-                val idToken = credential.googleIdToken
-                if (idToken != null) {
-                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                    auth.signInWithCredential(firebaseCredential)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(this, "Login com Google bem-sucedido!", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this, MapsActivity::class.java))
-                                finish()
-                            } else {
-                                Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+            if (resultCode == RESULT_OK) {
+                try {
+                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
+                    val idToken = credential.googleIdToken
+                    if (idToken != null) {
+                        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                        auth.signInWithCredential(firebaseCredential)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(this, "Login com Google bem-sucedido!", Toast.LENGTH_SHORT).show()
+                                    startActivity(Intent(this, MapsActivity::class.java))
+                                    finish()
+                                } else {
+                                    // Mostrar erro mais detalhado
+                                    Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                                }
                             }
-                        }
+                    }
+                } catch (e: Exception) {
+                    // Adicionar captura do erro para mais informações
+                    Toast.makeText(this, "Erro ao obter credenciais: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this, "Erro ao obter credenciais: ${e.message}", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Falha no login: Código de resultado inválido", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -119,5 +125,3 @@ class MainActivity : AppCompatActivity() {
         private const val GOOGLE_SIGN_IN_REQUEST_CODE = 1001
     }
 }
-
-
