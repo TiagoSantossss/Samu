@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId("258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com") // Substitua pelo seu CLIENT ID do Firebase
+                    .setServerClientId("258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com")
                     .setFilterByAuthorizedAccounts(false)
                     .build()
             )
