@@ -1,36 +1,38 @@
-package com.example.samu.Mapa
+package com.example.samu
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
-import androidx.appcompat.widget.SearchView
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
-import com.example.samu.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import android.Manifest
-
+import com.google.android.gms.maps.MapView
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var searchView: SearchView
+    private lateinit var mapView: MapView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        // Inicializa o mapa
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        // Inicializa a MapView
+        mapView = findViewById(R.id.mapView)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
 
         // Inicializa o serviço de localização
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -43,8 +45,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
-
-        // Obtém e mostra a localização atual
         getCurrentLocation()
     }
 
@@ -61,6 +61,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation()
+        } else {
+            Toast.makeText(this, "Location permission is required to show your current location.", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun setupSearch() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -69,7 +78,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
@@ -78,12 +86,39 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun searchLocation(location: String) {
         val geocoder = Geocoder(this)
-        val addresses = geocoder.getFromLocationName(location, 1)
-
-        if (addresses!!.isNotEmpty()) {
-            val latLng = LatLng(addresses[0].latitude, addresses[0].longitude)
-            mMap.addMarker(MarkerOptions().position(latLng).title(location))
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+        try {
+            val addresses = geocoder.getFromLocationName(location, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val address = addresses[0]
+                val latLng = LatLng(address.latitude, address.longitude)
+                mMap.addMarker(MarkerOptions().position(latLng).title(location))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+            } else {
+                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.e("MapsActivity", "Error searching location", e)
+            Toast.makeText(this, "Error searching location", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
     }
 }
