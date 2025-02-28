@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "258972663841-pdqf7q57avq43v4pngdl2611cln996v3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samu",
+            "certificate_hash": "ef672af0916a84cd5b8a878093f02779c0a5e3ec"
+          }
+        },
+        {
           "client_id": "258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com",
           "client_type": 3
         }
