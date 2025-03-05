@@ -28,9 +28,11 @@
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/searchViewDestination"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"/>
 
     <!-- Botão para traçar a rota -->
     <Button
@@ -41,6 +43,5 @@
         android:layout_below="@id/mapView"
         android:text="Traçar Rota"
         android:layout_marginTop="16dp"/>
+
 </RelativeLayout>
-
-
