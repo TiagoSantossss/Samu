@@ -20,6 +20,7 @@
         android:layout_margin="8dp"
         android:queryHint="Digite o local de destino"/>
 
+
     <!-- Botão para traçar a rota -->
     <Button
         android:id="@+id/btnTraçarRota"

@@ -63,6 +63,7 @@ class Registo : AppCompatActivity() {
             }
     }
 
+
     private fun salvarDadosNoFirestore(userId: String, email: String?) {
         val userMap = hashMapOf(
             "userId" to userId,

@@ -20,6 +20,7 @@
         android:theme="@style/Theme.Samu"
         tools:targetApi="31">
 
+
         <activity android:name=".Registo" android:exported="false" />
         <activity android:name=".MapsActivity" android:exported="false" />
 
@@ -36,8 +37,5 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAey0FaPZsv37x_uBSl8aLhrxAcsg8lY6M" />
-
-
-
     </application>
 </manifest>

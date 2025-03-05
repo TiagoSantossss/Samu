@@ -81,6 +81,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
+
     private fun setupSearch() {
         searchViewOrigin.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
