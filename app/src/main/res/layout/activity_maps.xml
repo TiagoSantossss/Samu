@@ -1,40 +1,44 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Campo de pesquisa para a origem -->
+    <!-- Barra de pesquisa para o local de partida -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewOrigin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:queryHint="Digite o local de origem"/>
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:queryHint="Origem"/>
 
-    <!-- Campo de pesquisa para o destino -->
+    <!-- Barra de pesquisa para o local de destino -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewDestination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchViewOrigin"
-        android:layout_margin="8dp"
-        android:queryHint="Digite o local de destino"/>
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:queryHint="Destino"/>
+
+    <!-- MapView do OSMDroid -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchViewDestination"
+        android:layout_margin="8dp"/>
 
     <!-- Botão para traçar a rota -->
     <Button
         android:id="@+id/btnTraçarRota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Traçar Rota"
-        android:layout_below="@id/searchViewDestination"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Mapa -->
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/btnTraçarRota"
-        android:layout_margin="8dp"/>
+        android:layout_below="@id/mapView"
+        android:text="Traçar Rota"
+        android:layout_marginTop="16dp"/>
 </RelativeLayout>

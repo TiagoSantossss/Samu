@@ -19,6 +19,8 @@ playServicesMaps = "19.1.0"
 firebaseFirestoreKtx = "25.1.2"
 playServicesAuth = "21.3.0"
 
+osmdroid = "6.1.11"  # A versão mais recente do OSMDroid
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -37,6 +39,7 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
+osmdroid = { module = "org.osmdroid:osmdroid-android", version.ref = "osmdroid" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
