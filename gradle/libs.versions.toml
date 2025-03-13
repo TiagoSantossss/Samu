@@ -19,10 +19,13 @@ playServicesMaps = "19.1.0"
 firebaseFirestoreKtx = "25.1.2"
 playServicesAuth = "21.3.0"
 
-osmdroid = "6.1.11"  # A versão mais recente do OSMDroid
+
 retrofit = "2.9.0"
 gson = "2.9.0"
 okhttp = "4.9.1"
+
+osmdroid = "6.1.13"
+kotlinx-coroutines = "1.6.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,7 +45,11 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
+
+
 osmdroid = { module = "org.osmdroid:osmdroid-android", version.ref = "osmdroid" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 gson = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "gson" }

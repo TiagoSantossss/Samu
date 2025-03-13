@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Samu</string>
+
+    <string name="google_maps_api_key">SUA_CHAVE_API_AQUI</string>
 </resources>
