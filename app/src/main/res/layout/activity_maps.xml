@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".MapsActivity"
+    android:background="@color/laranjafundo">
 
-    <!-- Fragmento do Google Map -->
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.MapFragment"
+    <!-- Barra de Pesquisa -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_location"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:queryHint="Pesquisar localização"
+        android:iconifiedByDefault="false"
+        android:background="@color/laranjafundo"
+        android:padding="8dp"
+        android:elevation="4dp"/>
 
-</LinearLayout>
+    <!-- Fragmento do Google Maps -->
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/search_location"
+        android:layout_above="@id/btn_view_routes"/>
+
+    <!-- Botão para Visualizar Trajetos -->
+    <Button
+        android:id="@+id/btn_view_routes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Visualizar Trajetos"
+        android:backgroundTint="@color/laranja"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"/>
+</RelativeLayout>
