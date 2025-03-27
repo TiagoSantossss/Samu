@@ -13,6 +13,7 @@ object UberRetrofitInstance {
         })
         .build()
 
+
     val api: UberAuthService by lazy {  // Certifique-se que está a usar o nome 'api'
         Retrofit.Builder()
             .baseUrl(BASE_URL)
