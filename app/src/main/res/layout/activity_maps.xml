@@ -3,44 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Barra de pesquisa para o local de partida -->
+    <!-- Barra de pesquisa para localização -->
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchViewOrigin"
+        android:id="@+id/search_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@android:color/white"
         android:elevation="4dp"
-        android:queryHint="Origem"/>
+        android:queryHint="Pesquisar localização" />
 
-    <!-- Barra de pesquisa para o local de destino -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchViewDestination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchViewOrigin"
-        android:layout_margin="16dp"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:queryHint="Destino"/>
-
-    <!-- MapView do OSMDroid -->
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapView"
+    <!-- Fragmento do Google Maps -->
+    <fragment
+        android:id="@+id/map_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchViewDestination"
-        android:layout_margin="8dp"/>
+        android:layout_below="@id/search_location"
+        class="com.google.android.gms.maps.SupportMapFragment" />
 
-    <!-- Botão para traçar a rota -->
+    <!-- Botão para ver rotas -->
     <Button
-        android:id="@+id/btnTraçarRota"
+        android:id="@+id/btn_view_routes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/mapView"
-        android:text="Traçar Rota"
-        android:layout_marginTop="16dp"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:text="Ver Rotas" />
 </RelativeLayout>
-
-
