@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                     .setServerClientId("172562896455-b7ruu1p18n00077a66knoleh6204ubq4.apps.googleusercontent.com")
                     .setFilterByAuthorizedAccounts(false)
                     .build()
-
             )
             .build()
 
