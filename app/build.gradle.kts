@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.okhttp)
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
 
 
 

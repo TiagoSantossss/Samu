@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId("258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com")
+                    .setServerClientId("172562896455-b7ruu1p18n00077a66knoleh6204ubq4.apps.googleusercontent.com")
                     .setFilterByAuthorizedAccounts(false)
                     .build()
             )

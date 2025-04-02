@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "258972663841",
-    "project_id": "samu-7b374",
-    "storage_bucket": "samu-7b374.firebasestorage.app"
+    "project_number": "172562896455",
+    "project_id": "samu-6ee08",
+    "storage_bucket": "samu-6ee08.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:258972663841:android:3d73ea2f48e8a07d1ea360",
+        "mobilesdk_app_id": "1:172562896455:android:8ccf361eced3436c4a4362",
         "android_client_info": {
           "package_name": "com.example.samu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com",
+          "client_id": "172562896455-b7ruu1p18n00077a66knoleh6204ubq4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDKZd9AOkimqIi_6pkGDklCMRPVyrv4zAw"
+          "current_key": "AIzaSyDrVi1HEqguxnpMVq3q8Al4fYzZFFL5c58"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "258972663841-s15dho0e2ivs552tqg1tfqikd1foee9c.apps.googleusercontent.com",
+              "client_id": "172562896455-b7ruu1p18n00077a66knoleh6204ubq4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
