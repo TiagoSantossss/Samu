@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity"
-    android:background="@color/laranjafundo">
+    android:layout_height="match_parent">
 
-    <!-- Barra de Pesquisa -->
+    <!-- Barra de pesquisa para o local de partida -->
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_location"
+        android:id="@+id/searchViewOrigin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Pesquisar localização"
-        android:iconifiedByDefault="false"
-        android:background="@color/laranjafundo"
-        android:padding="8dp"
-        android:elevation="4dp"/>
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:queryHint="Origem"/>
 
-    <!-- Fragmento do Google Maps -->
-    <fragment
-        android:id="@+id/map_fragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- Barra de pesquisa para o local de destino -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewDestination"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/search_location"
-        android:layout_above="@id/btn_view_routes"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchViewOrigin"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:queryHint="Destino"/>
 
-    <!-- Botão para Visualizar Trajetos -->
+    <!-- MapView do OSMDroid -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchViewDestination"
+        android:layout_margin="8dp"/>
+
+    <!-- Botão para traçar a rota -->
     <Button
-        android:id="@+id/btn_view_routes"
-        android:layout_width="match_parent"
+        android:id="@+id/btnTraçarRota"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visualizar Trajetos"
-        android:backgroundTint="@color/laranja"
-        android:textColor="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/mapView"
+        android:text="Traçar Rota"
+        android:layout_marginTop="16dp"/>
 </RelativeLayout>
+
+
