@@ -14,6 +14,46 @@
       },
       "oauth_client": [
         {
+          "client_id": "172562896455-4iom270nj85gn1k77hevbvq91dcogb7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samu",
+            "certificate_hash": "2057f6b0cc07ef2da81fe02cd08205a1f25fa77c"
+          }
+        },
+        {
+          "client_id": "172562896455-auunrsl1bfgci7c5j0fdtq8oiqocrr7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samu",
+            "certificate_hash": "d41bb12528878a7e9ad67d337bb424f2d0553346"
+          }
+        },
+        {
+          "client_id": "172562896455-qmcb1a9g3emcvu3hndln9evpmb5akg94.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samu",
+            "certificate_hash": "4369b01aa86088adcb5ea8bfa338a46cd04d4ee6"
+          }
+        },
+        {
+          "client_id": "172562896455-u7r2h6n3cisdblfvbg0i93m01rcg6rh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samu",
+            "certificate_hash": "ef672af0916a84cd5b8a878093f02779c0a5e3ec"
+          }
+        },
+        {
+          "client_id": "172562896455-una5qlj837nvvgnm8veelsb2f3oqvcds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samu",
+            "certificate_hash": "2625d5b5d8ae18204aa05ec08293c1deee537ecf"
+          }
+        },
+        {
           "client_id": "172562896455-b7ruu1p18n00077a66knoleh6204ubq4.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -22,7 +62,6 @@
         {
           "current_key": "AIzaSyDrVi1HEqguxnpMVq3q8Al4fYzZFFL5c58"
         }
-
       ],
       "services": {
         "appinvite_service": {
@@ -37,5 +76,4 @@
     }
   ],
   "configuration_version": "1"
-
 }
