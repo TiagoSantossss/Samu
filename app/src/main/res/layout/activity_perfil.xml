@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <!-- Foto de perfil com botão de câmera -->
+    <FrameLayout
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circle_orange"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_placeholder" />
+
+        <ImageView
+            android:id="@+id/iconCamera"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_white"
+            android:padding="4dp"
+            android:src="@drawable/ic_camera" />
+    </FrameLayout>
+
+    <!-- Nome de utilizador com botão de edição -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nome de utilizador"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingEnd="40dp" />
+
+        <ImageView
+            android:id="@+id/iconEditUsername"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/circle_white"
+            android:padding="4dp"
+            android:src="@drawable/ic_edit" />
+    </FrameLayout>
+
+    <!-- Email -->
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="email@example.com"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Alterar palavra-passe (sublinhado) -->
+    <TextView
+        android:id="@+id/tvChangePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alterar palavra-passe"
+        android:textSize="16sp"
+        android:textColor="@color/laranja"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"/>
+</LinearLayout>
