@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
-    <!-- Barra de pesquisa para localização -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_location"
+    <!-- Campo de Origem -->
+    <fragment
+        android:id="@+id/autocomplete_origin"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Campo de Destino -->
+    <fragment
+        android:id="@+id/autocomplete_destination"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:queryHint="Pesquisar localização" />
+        android:layout_below="@id/autocomplete_origin"
+        android:layout_marginTop="8dp" />
 
-    <!-- Fragmento do Google Maps -->
+    <!-- Mapa ocupa toda a largura -->
     <fragment
         android:id="@+id/map_fragment"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/search_location"
-        class="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_height="0dp"
+        android:layout_below="@id/autocomplete_destination"
+        android:layout_above="@id/btn_view_routes"
+        android:layout_marginTop="8dp" />
 
     <!-- Botão para ver rotas -->
     <Button
