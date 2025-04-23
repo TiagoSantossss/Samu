@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.play.services.auth)
+    implementation(libs.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,6 +61,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.okhttp)
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("com.google.android.libraries.places:places:3.4.0")
+
+
 
 
 }
