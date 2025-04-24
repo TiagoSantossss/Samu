@@ -27,16 +27,17 @@ class VerRotas : AppCompatActivity() {
         val originLng = intent.getDoubleExtra("origin_lng", 0.0)
         val destLat = intent.getDoubleExtra("dest_lat", 0.0)
         val destLng = intent.getDoubleExtra("dest_lng", 0.0)
-
-        // Referência aos elementos do layout
-        val editTextOrigem = findViewById<EditText>(R.id.editTextText)
-        val editTextDestino = findViewById<EditText>(R.id.editTextText2)
         val spinnerOrdem = findViewById<Spinner>(R.id.spinnerOrdem)
         val btnVoltar = findViewById<ImageButton>(R.id.imageButton)
+        val originName = intent.getStringExtra("origin_name") ?: "Origem não informada"
+        val destName = intent.getStringExtra("dest_name") ?: "Destino não informado"
 
-        // Preenchendo os campos com os dados recebidos
-        editTextOrigem.setText("Lat: $originLat, Lng: $originLng")
-        editTextDestino.setText("Lat: $destLat, Lng: $destLng")
+        val editTextOrigem = findViewById<EditText>(R.id.editTextText)
+        val editTextDestino = findViewById<EditText>(R.id.editTextText2)
+
+        editTextOrigem.setText(originName)
+        editTextDestino.setText(destName)
+
 
         // Botão de voltar
         btnVoltar.setOnClickListener {

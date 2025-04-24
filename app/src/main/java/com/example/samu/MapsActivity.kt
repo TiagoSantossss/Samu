@@ -39,6 +39,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var placesClient: PlacesClient
     private lateinit var token: AutocompleteSessionToken
+    private var originName: String? = null
+    private var destinationName: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +50,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val btnVerRotas = findViewById<Button>(R.id.btn_view_routes)
         btnVerRotas.setOnClickListener {
             val intent = Intent(this@MapsActivity, VerRotas::class.java)
-            originLatLng?.let {
-                intent.putExtra("origin_lat", it.latitude)
-                intent.putExtra("origin_lng", it.longitude)
+            originName?.let {
+                intent.putExtra("origin_name", it)
             }
-            destinationLatLng?.let {
-                intent.putExtra("dest_lat", it.latitude)
-                intent.putExtra("dest_lng", it.longitude)
+            destinationName?.let {
+                intent.putExtra("dest_name", it)
             }
             startActivity(intent)
         }
@@ -95,7 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         autocompleteOrigin.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 originLatLng = place.latLng
-                mMap.clear()
+                originName = place.name
                 mMap.addMarker(MarkerOptions().position(originLatLng!!).title("Origem: ${place.name}"))
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(originLatLng!!, 12f))
                 checkDrawRoute()
@@ -104,13 +105,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onError(status: Status) {
                 Toast.makeText(this@MapsActivity, "Erro: ${status.statusMessage}", Toast.LENGTH_SHORT).show()
             }
-
-
         })
 
         autocompleteDestination.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 destinationLatLng = place.latLng
+                destinationName = place.name
                 mMap.addMarker(MarkerOptions().position(destinationLatLng!!).title("Destino: ${place.name}"))
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLatLng!!, 12f))
                 checkDrawRoute()
@@ -157,6 +157,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 originLatLng = LatLng(it.latitude, it.longitude)
+                if (destinationLatLng != null) {
+                    checkDrawRoute()
+                }
+
 
                 // Adiciona marcador e move a câmara logo no início
                 mMap.addMarker(MarkerOptions().position(originLatLng!!).title("Minha localização"))
