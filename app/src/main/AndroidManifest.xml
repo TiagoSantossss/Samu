@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Samu"
         tools:targetApi="31">
         <activity
+            android:name=".VerRotas"
+            android:exported="false" />
+        <activity
             android:name=".PerfilActivity"
             android:exported="false" />
         <activity

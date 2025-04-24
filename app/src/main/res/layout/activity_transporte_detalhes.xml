@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    tools:context=".TransporteDetalhesActivity">
+    android:background="#F5F5F5">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -71,7 +70,8 @@
                         android:layout_height="48dp"
                         android:src="@drawable/ic_bus"
                         android:tint="#FFFFFF"
-                        android:contentDescription="Ícone do transporte" />
+                        android:contentDescription="Ícone do transporte"
+                        tools:ignore="UseAppTint" />
 
                     <TextView
                         android:id="@+id/tvTipoTransporte"
@@ -113,9 +113,9 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_time"
                             android:tint="@color/laranja"
-                            android:contentDescription="Ícone de tempo" />
+                            android:contentDescription="Ícone de tempo"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -152,9 +152,9 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_money"
                             android:tint="@color/laranja"
-                            android:contentDescription="Ícone de preço" />
+                            android:contentDescription="Ícone de preço"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -191,9 +191,9 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:src="@drawable/ic_distance"
                             android:tint="@color/laranja"
-                            android:contentDescription="Ícone de distância" />
+                            android:contentDescription="Ícone de distância"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -252,7 +252,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_origin"
                             android:tint="#4CAF50"
-                            android:contentDescription="Ícone de origem" />
+                            android:contentDescription="Ícone de origem"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:id="@+id/tvOrigem"
@@ -283,7 +284,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_destination"
                             android:tint="#F44336"
-                            android:contentDescription="Ícone de destino" />
+                            android:contentDescription="Ícone de destino"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:id="@+id/tvDestino"
