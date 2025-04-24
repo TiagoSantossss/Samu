@@ -1,6 +1,7 @@
 package com.example.samu
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -42,6 +43,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        val btnVerRotas = findViewById<Button>(R.id.btn_view_routes)
+        btnVerRotas.setOnClickListener {
+            val intent = Intent(this@MapsActivity, verrotas::class.java)
+            originLatLng?.let {
+                intent.putExtra("origin_lat", it.latitude)
+                intent.putExtra("origin_lng", it.longitude)
+            }
+            destinationLatLng?.let {
+                intent.putExtra("dest_lat", it.latitude)
+                intent.putExtra("dest_lng", it.longitude)
+            }
+            startActivity(intent)
+        }
+
+
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("origin_lat") && savedInstanceState.containsKey("origin_lng")) {
