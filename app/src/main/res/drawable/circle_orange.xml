@@ -1,0 +1,8 @@
+<!-- res/drawable/circle_border_orange.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@android:color/transparent" />
+    <stroke
+        android:width="4dp"
+        android:color="@color/black" />
+</shape>
