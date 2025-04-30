@@ -441,4 +441,5 @@ class VerRotas : AppCompatActivity() {
         super.onDestroy()
         coroutineScope.cancel()
     }
+
 }
