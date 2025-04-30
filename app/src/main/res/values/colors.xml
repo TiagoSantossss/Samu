@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="light_blue">#B0C4DE</color>
     <color name="laranja">#FD7E14</color>
     <color name="laranjafundo">#FFE9DA</color>
     <color name="colorRed">#F44336</color>
+
+
+
+    <color name="colorPrimary">#FD7E14</color>
+    <color name="colorPrimaryDark">#E26A06</color>
+    <color name="colorAccent">#FD7E14</color>
+    <color name="tab_inactive">#9E9E9E</color>
+    <color name="white">#FFFFFF</color>
+    <color name="separator">#E0E0E0</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="walking_color">#4CAF50</color>
+    <color name="transit_color">#3F51B5</color>
+    <color name="bicycling_color">#FF9800</color>
+
 </resources>
