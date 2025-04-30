@@ -108,10 +108,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
                 <TextView
                     android:id="@+id/transportes_tab"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="134dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="16dp"
@@ -122,8 +123,8 @@
 
                 <TextView
                     android:id="@+id/a_pe_tab"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="88dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="16dp"
@@ -132,15 +133,16 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/bicicleta_tab"
-                    android:layout_width="0dp"
+                    android:id="@+id/privados_tab"
+                    android:layout_width="146dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="16dp"
-                    android:text="Bicicleta"
-                    android:textColor="#9E9E9E"
+                    android:padding="12dp"
+                    android:text="Transportes Privados"
+                    android:textColor="@color/tab_inactive"
                     android:textSize="16sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -164,12 +166,13 @@
                     android:visibility="invisible" />
 
                 <View
-                    android:id="@+id/bicicleta_indicator"
+                    android:id="@+id/privados_indicator"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#FD7E14"
-                    android:visibility="invisible" />
+                    android:layout_height="4dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone" />
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -216,7 +219,8 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:src="@drawable/ic_error"
-                android:tint="#757575" />
+                android:tint="#757575"
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:id="@+id/error_text"
@@ -238,7 +242,28 @@
                 android:text="Tentar novamente"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
-        </LinearLayout>
-    </FrameLayout>
 
+
+        </LinearLayout>
+        <!-- Transportes Privados -->
+        <ScrollView
+            android:id="@+id/privados_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <Button
+                    android:id="@+id/uber_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pedir Uber" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
 </LinearLayout>

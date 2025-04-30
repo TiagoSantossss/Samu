@@ -1,6 +1,8 @@
 package com.example.samu
 
+import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +22,9 @@ class VerRotas : AppCompatActivity() {
     private lateinit var transportesTab: TextView
     private lateinit var aPeTab: TextView
     private lateinit var bicicletaTab: TextView
+    private lateinit var privadosTab: TextView
+    private lateinit var privadosContainer: ScrollView
+
 
     private lateinit var progressBar: ProgressBar
     private lateinit var errorLayout: LinearLayout
@@ -61,7 +66,24 @@ class VerRotas : AppCompatActivity() {
     private fun setupViews() {
         transportesTab = findViewById(R.id.transportes_tab)
         aPeTab = findViewById(R.id.a_pe_tab)
-        bicicletaTab = findViewById(R.id.bicicleta_tab)
+
+        privadosTab = findViewById(R.id.privados_tab)
+        privadosContainer = findViewById(R.id.privados_container)
+
+        val uberButton = findViewById<Button>(R.id.uber_button)
+        uberButton.setOnClickListener {
+            val uri = Uri.parse(
+                "https://m.uber.com/ul/?" +
+                        "action=setPickup" +
+                        "&pickup=my_location" +
+                        "&dropoff[latitude]=$destLat" +
+                        "&dropoff[longitude]=$destLng" +
+                        "&dropoff[nickname]=Destino"
+            )
+
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
 
         progressBar = findViewById(R.id.progress_bar)
         errorLayout = findViewById(R.id.error_layout)
@@ -97,42 +119,47 @@ class VerRotas : AppCompatActivity() {
             selectTab("walking")
         }
 
-        bicicletaTab.setOnClickListener {
-            selectTab("bicycling")
+        privadosTab.setOnClickListener {
+            selectTab("privados")
         }
     }
 
     private fun selectTab(mode: String) {
         currentMode = mode
 
-        // Reset all tabs
         transportesTab.setTextColor(ContextCompat.getColor(this, R.color.tab_inactive))
         aPeTab.setTextColor(ContextCompat.getColor(this, R.color.tab_inactive))
-        bicicletaTab.setTextColor(ContextCompat.getColor(this, R.color.tab_inactive))
+        privadosTab.setTextColor(ContextCompat.getColor(this, R.color.tab_inactive))
 
         findViewById<View>(R.id.transportes_indicator).visibility = View.INVISIBLE
         findViewById<View>(R.id.a_pe_indicator).visibility = View.INVISIBLE
-        findViewById<View>(R.id.bicicleta_indicator).visibility = View.INVISIBLE
+        findViewById<View>(R.id.privados_indicator).visibility = View.INVISIBLE
 
-        // Set active tab
+        // Esconder todos os containers
+        routesContainer.visibility = View.GONE
+        privadosContainer.visibility = View.GONE
+        errorLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
+
         when (mode) {
             "transit" -> {
                 transportesTab.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 findViewById<View>(R.id.transportes_indicator).visibility = View.VISIBLE
+                fetchRoutes(originLat, originLng, destLat, destLng, "transit")
             }
             "walking" -> {
                 aPeTab.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 findViewById<View>(R.id.a_pe_indicator).visibility = View.VISIBLE
+                fetchRoutes(originLat, originLng, destLat, destLng, "walking")
             }
-            "bicycling" -> {
-                bicicletaTab.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                findViewById<View>(R.id.bicicleta_indicator).visibility = View.VISIBLE
+            "privados" -> {
+                privadosTab.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                findViewById<View>(R.id.privados_indicator).visibility = View.VISIBLE
+                privadosContainer.visibility = View.VISIBLE
             }
         }
-
-        // Fetch routes for the selected mode
-        fetchRoutes(originLat, originLng, destLat, destLng, mode)
     }
+
 
     private fun fetchRoutes(originLat: Double, originLng: Double, destLat: Double, destLng: Double, mode: String) {
         showLoading()
@@ -418,17 +445,24 @@ class VerRotas : AppCompatActivity() {
         }
     }
 
+    private fun showRoutes() {
+        progressBar.visibility = View.GONE
+        errorLayout.visibility = View.GONE
+
+        if (currentMode == "privados") {
+            privadosContainer.visibility = View.VISIBLE
+        } else {
+            routesContainer.visibility = View.VISIBLE
+        }
+    }
+
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
         errorLayout.visibility = View.GONE
         routesContainer.visibility = View.GONE
+        privadosContainer.visibility = View.GONE
     }
 
-    private fun showRoutes() {
-        progressBar.visibility = View.GONE
-        errorLayout.visibility = View.GONE
-        routesContainer.visibility = View.VISIBLE
-    }
 
     private fun showError(message: String) {
         progressBar.visibility = View.GONE
