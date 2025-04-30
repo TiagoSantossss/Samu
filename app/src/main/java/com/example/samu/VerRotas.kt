@@ -61,6 +61,20 @@ class VerRotas : AppCompatActivity() {
         } else {
             showError("Coordenadas inválidas")
         }
+
+        val originName = intent.getStringExtra("origin_name") ?: "Origem desconhecida"
+        val destName = intent.getStringExtra("dest_name") ?: "Destino desconhecido"
+
+        // Exibir os nomes nos TextViews
+        originText.text = originName
+        destinoText.text = destName
+
+        val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
+        btnVoltar.setOnClickListener {
+            finish()
+        }
+
+
     }
 
     private fun setupViews() {
