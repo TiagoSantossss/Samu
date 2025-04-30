@@ -50,14 +50,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val btnVerRotas = findViewById<Button>(R.id.btn_view_routes)
         btnVerRotas.setOnClickListener {
             val intent = Intent(this@MapsActivity, VerRotas::class.java)
+
+            originLatLng?.let {
+                intent.putExtra("origin_lat", it.latitude)
+                intent.putExtra("origin_lng", it.longitude)
+            }
+
+            destinationLatLng?.let {
+                intent.putExtra("dest_lat", it.latitude)
+                intent.putExtra("dest_lng", it.longitude)
+            }
+
             originName?.let {
                 intent.putExtra("origin_name", it)
             }
+
             destinationName?.let {
                 intent.putExtra("dest_name", it)
             }
+
             startActivity(intent)
         }
+
 
 
 

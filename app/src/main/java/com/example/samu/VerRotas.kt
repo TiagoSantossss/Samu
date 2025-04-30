@@ -3,7 +3,6 @@ package com.example.samu
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,29 +14,18 @@ class VerRotas : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_ver_rotas)
 
-        // Aplicando padding para áreas do sistema (status bar, barra de navegação)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.linearLayout)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        // Pegando os nomes enviados pela Intent
+        val originName = intent.getStringExtra("origin_name") ?: "Origem desconhecida"
+        val destName = intent.getStringExtra("dest_name") ?: "Destino desconhecido"
 
-        // Pegando as coordenadas da intent
-        val originLat = intent.getDoubleExtra("origin_lat", 0.0)
-        val originLng = intent.getDoubleExtra("origin_lng", 0.0)
-        val destLat = intent.getDoubleExtra("dest_lat", 0.0)
-        val destLng = intent.getDoubleExtra("dest_lng", 0.0)
-        val spinnerOrdem = findViewById<Spinner>(R.id.spinnerOrdem)
-        val btnVoltar = findViewById<ImageButton>(R.id.imageButton)
-        val originName = intent.getStringExtra("origin_name") ?: "Origem não informada"
-        val destName = intent.getStringExtra("dest_name") ?: "Destino não informado"
+        // Referência aos elementos do layout
+        val editTextOrigem = findViewById<EditText>(R.id.editOrigem)
+        val editTextDestino = findViewById<EditText>(R.id.editDestino)
+        val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
 
-        val editTextOrigem = findViewById<EditText>(R.id.editTextText)
-        val editTextDestino = findViewById<EditText>(R.id.editTextText2)
-
+        // Preenchendo os campos com os nomes dos locais
         editTextOrigem.setText(originName)
         editTextDestino.setText(destName)
-
 
         // Botão de voltar
         btnVoltar.setOnClickListener {
