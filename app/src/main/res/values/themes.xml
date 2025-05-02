@@ -1,9 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Base application theme -->
     <style name="Base.Theme.Samu" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Cor da status bar -->
+        <item name="android:statusBarColor">@color/laranja</item>
+        <!-- Ícones escuros na status bar, se a cor de fundo for clara -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Samu" parent="Base.Theme.Samu" />
+
 </resources>

@@ -6,6 +6,11 @@
     <color name="laranjafundo">#FFE9DA</color>
     <color name="colorRed">#F44336</color>
 
+    <color name="background">#FFFFFF</color> <!-- fundo fixo -->
+    <color name="text_color1">#FFFFFF</color> <!-- texto fixo -->
+    <color name="text_color2">#000000</color>
+
+
 
 
     <color name="colorPrimary">#FD7E14</color>
