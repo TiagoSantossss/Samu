@@ -224,7 +224,8 @@ class VerRotas : AppCompatActivity() {
             val distance = legs.getJSONObject("distance").getString("text")
             val duration = legs.getJSONObject("duration").getString("text")
 
-            // Criar card para o resumo da rota
+            var custoTotal = 0.0
+
             val summaryCard = CardView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -271,33 +272,67 @@ class VerRotas : AppCompatActivity() {
             }
             summaryLayout.addView(distanceText)
 
-            // Exibir o custo (caso exista)
-            val fare = if (route.has("fare")) route.getJSONObject("fare").getString("text") else null
-            fare?.let {
-                val fareText = TextView(this).apply {
+            val steps = legs.getJSONArray("steps")
+            var inferredFare: String? = null
+
+            for (i in 0 until steps.length()) {
+                val step = steps.getJSONObject(i)
+                if (step.getString("travel_mode") == "TRANSIT") {
+                    val transitDetails = step.getJSONObject("transit_details")
+                    val line = transitDetails.getJSONObject("line")
+                    val vehicle = line.getJSONObject("vehicle")
+                    val vehicleType = vehicle.getString("type")
+                    val agencyName = if (line.has("agencies")) {
+                        line.getJSONArray("agencies").optJSONObject(0)?.optString("name") ?: ""
+                    } else ""
+
+                    val stepDistance = step.getJSONObject("distance").getString("text")
+                        .replace(" km", "")
+                        .replace(",", ".")
+                        .toDoubleOrNull() ?: continue
+
+                    when {
+                        agencyName.contains("STCP", ignoreCase = true) -> {
+                            custoTotal += 2.50
+                        }
+                        vehicleType.contains("TRAIN", ignoreCase = true) ||
+                                vehicleType.contains("RAIL", ignoreCase = true) -> {
+                            custoTotal += calcularPrecoSimples2(stepDistance)
+                        }
+                        vehicleType.contains("BUS", ignoreCase = true) -> {
+                            custoTotal += calcularPrecoSimples(stepDistance)
+                        }
+                    }
+                }
+            }
+
+            val fareFromAPI = if (route.has("fare")) route.getJSONObject("fare").getString("text") else null
+            val finalFareText = fareFromAPI ?: inferredFare
+
+            // Adicionar o custo estimado logo após a distância
+            if (custoTotal > 0) {
+                val totalCostText = TextView(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
                         topMargin = 4
                     }
-                    text = "Custo: $fare"
+                    text = "Custo estimado: €%.2f".format(custoTotal)
                     textSize = 16f
                     setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
                 }
-                summaryLayout.addView(fareText)
+                summaryLayout.addView(totalCostText)
             }
 
             summaryCard.addView(summaryLayout)
             routesContainer.addView(summaryCard)
 
-            // Adicionar os passos da rota
-            val steps = legs.getJSONArray("steps")
+            // Renderizar passos da rota
             for (i in 0 until steps.length()) {
                 val step = steps.getJSONObject(i)
                 val travelMode = step.getString("travel_mode")
-                val instruction = step.getString("html_instructions")
-                    .replace("<[^>]*>".toRegex(), " ") // Remove HTML tags
+                val instruction = step.getString("html_instructions").replace("<[^>]*>".toRegex(), " ")
                 val stepDistance = step.getJSONObject("distance").getString("text")
                 val stepDuration = step.getJSONObject("duration").getString("text")
 
@@ -323,10 +358,7 @@ class VerRotas : AppCompatActivity() {
                 }
 
                 val iconLayout = LinearLayout(this).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        48,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                    )
+                    layoutParams = LinearLayout.LayoutParams(48, LinearLayout.LayoutParams.MATCH_PARENT)
                     gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
                     setPadding(0, 4, 16, 0)
                 }
@@ -371,66 +403,28 @@ class VerRotas : AppCompatActivity() {
                 }
                 contentLayout.addView(detailsText)
 
-                if (travelMode == "TRANSIT") {
-                    val transitDetails = step.getJSONObject("transit_details")
-                    val line = transitDetails.getJSONObject("line")
-                    val vehicle = line.getJSONObject("vehicle")
-                    val vehicleType = vehicle.getString("type")
-                    val lineName = if (line.has("short_name")) line.getString("short_name") else line.getString("name")
-                    val departureStop = transitDetails.getJSONObject("departure_stop").getString("name")
-                    val arrivalStop = transitDetails.getJSONObject("arrival_stop").getString("name")
-                    val headsign = transitDetails.getString("headsign")
-
-                    val transitInfoLayout = LinearLayout(this).apply {
-                        layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        ).apply {
-                            topMargin = 12
-                        }
-                        orientation = LinearLayout.VERTICAL
-                        setPadding(8, 8, 8, 8)
-                        setBackgroundResource(R.drawable.transit_info_background)
-                    }
-
-                    val lineInfoText = TextView(this).apply {
-                        layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
-                        text = "${getTransitTypeName(vehicleType)} $lineName em direção a $headsign"
-                        textSize = 14f
-                        setTextColor(ContextCompat.getColor(context, R.color.text_primary))
-                        setTypeface(null, Typeface.BOLD)
-                    }
-                    transitInfoLayout.addView(lineInfoText)
-
-                    val stopsInfoText = TextView(this).apply {
-                        layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        ).apply {
-                            topMargin = 4
-                        }
-                        text = "De: $departureStop\nPara: $arrivalStop"
-                        textSize = 14f
-                        setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
-                    }
-                    transitInfoLayout.addView(stopsInfoText)
-
-                    contentLayout.addView(transitInfoLayout)
-                }
-
                 stepLayout.addView(contentLayout)
                 stepCard.addView(stepLayout)
                 routesContainer.addView(stepCard)
             }
+
         } catch (e: Exception) {
-            Log.e(TAG, "Error displaying route", e)
+            Log.e(TAG, "Erro ao exibir rota", e)
             showError("Erro ao exibir rota: ${e.message}")
         }
     }
 
+    private fun calcularPrecoSimples(distanciaKm: Double): Double {
+        val precoBase = 1.20  // valor base
+        val precoPorKm = 0.07 // custo por km
+        return precoBase + (distanciaKm * precoPorKm)
+    }
+
+    private fun calcularPrecoSimples2(distanciaKm: Double): Double {
+        val precoBase = 1
+        val precoPorKm = 0.05
+        return precoBase + (distanciaKm * precoPorKm)
+    }
 
     private fun getStepIcon(travelMode: String): Int {
         return when (travelMode) {
@@ -456,7 +450,7 @@ class VerRotas : AppCompatActivity() {
                 if (instruction.contains("Destino")) {
                     instruction
                 } else {
-                    "Andar até ${instruction.replace("Caminhar até ", "").replace("Caminhar para ", "")}"
+                    "${instruction.replace("Caminhar até ", "").replace("Caminhar para ", "")}"
                 }
             }
             "TRANSIT" -> instruction
