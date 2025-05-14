@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -223,9 +224,11 @@ class VerRotas : AppCompatActivity() {
             val legs = route.getJSONArray("legs").getJSONObject(0)
             val distance = legs.getJSONObject("distance").getString("text")
             val duration = legs.getJSONObject("duration").getString("text")
+            val steps = legs.getJSONArray("steps")
 
             var custoTotal = 0.0
 
+            // Criação do cartão de resumo
             val summaryCard = CardView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -247,88 +250,92 @@ class VerRotas : AppCompatActivity() {
                 setPadding(16, 16, 16, 16)
             }
 
+            // Duração
             val durationText = TextView(this).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
                 text = "Duração: $duration"
                 textSize = 18f
-                setTextColor(ContextCompat.getColor(context, R.color.text_primary))
                 setTypeface(null, Typeface.BOLD)
+                setTextColor(ContextCompat.getColor(context, R.color.text_primary))
             }
             summaryLayout.addView(durationText)
 
+            // Distância
             val distanceText = TextView(this).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    topMargin = 4
-                }
                 text = "Distância: $distance"
                 textSize = 16f
                 setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = 4 }
             }
             summaryLayout.addView(distanceText)
 
-            val steps = legs.getJSONArray("steps")
-            var inferredFare: String? = null
+            // Verifica se há preço direto da API
+            val fareFromAPI = if (route.has("fare")) route.getJSONObject("fare").optString("text", null) else null
 
-            for (i in 0 until steps.length()) {
-                val step = steps.getJSONObject(i)
-                if (step.getString("travel_mode") == "TRANSIT") {
-                    val transitDetails = step.getJSONObject("transit_details")
-                    val line = transitDetails.getJSONObject("line")
-                    val vehicle = line.getJSONObject("vehicle")
-                    val vehicleType = vehicle.getString("type")
-                    val agencyName = if (line.has("agencies")) {
-                        line.getJSONArray("agencies").optJSONObject(0)?.optString("name") ?: ""
-                    } else ""
-
-                    val stepDistance = step.getJSONObject("distance").getString("text")
-                        .replace(" km", "")
-                        .replace(",", ".")
-                        .toDoubleOrNull() ?: continue
-
-                    when {
-                        agencyName.contains("STCP", ignoreCase = true) -> {
-                            custoTotal += 2.50
-                        }
-                        vehicleType.contains("TRAIN", ignoreCase = true) ||
-                                vehicleType.contains("RAIL", ignoreCase = true) -> {
-                            custoTotal += calcularPrecoSimples2(stepDistance)
-                        }
-                        vehicleType.contains("BUS", ignoreCase = true) -> {
-                            custoTotal += calcularPrecoSimples(stepDistance)
-                        }
-                    }
-                }
-            }
-
-            val fareFromAPI = if (route.has("fare")) route.getJSONObject("fare").getString("text") else null
-            val finalFareText = fareFromAPI ?: inferredFare
-
-            // Adicionar o custo estimado logo após a distância
-            if (custoTotal > 0) {
-                val totalCostText = TextView(this).apply {
+            if (!fareFromAPI.isNullOrBlank()) {
+                val fareTextView = TextView(this).apply {
+                    text = "Custo estimado: $fareFromAPI"
+                    textSize = 16f
+                    setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        topMargin = 4
-                    }
-                    text = "Custo estimado: €%.2f".format(custoTotal)
-                    textSize = 16f
-                    setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                    ).apply { topMargin = 4 }
                 }
-                summaryLayout.addView(totalCostText)
+                summaryLayout.addView(fareTextView)
+            } else {
+                // Calcular custo com base nos meios de transporte
+                for (i in 0 until steps.length()) {
+                    val step = steps.getJSONObject(i)
+                    if (step.getString("travel_mode") == "TRANSIT") {
+                        val transitDetails = step.getJSONObject("transit_details")
+                        val line = transitDetails.getJSONObject("line")
+                        val vehicle = line.getJSONObject("vehicle")
+                        val vehicleType = vehicle.getString("type")
+                        val agencyName = if (line.has("agencies")) {
+                            line.getJSONArray("agencies").optJSONObject(0)?.optString("name") ?: ""
+                        } else ""
+
+                        val stepDistance = step.getJSONObject("distance").getString("text")
+                            .replace(" km", "")
+                            .replace(",", ".")
+                            .toDoubleOrNull() ?: continue
+
+                        when {
+                            agencyName.contains("STCP", ignoreCase = true) -> {
+                                custoTotal += 2.50
+                            }
+                            vehicleType.contains("TRAIN", ignoreCase = true) ||
+                                    vehicleType.contains("RAIL", ignoreCase = true) -> {
+                                custoTotal += calcularPrecoSimples2(stepDistance)
+                            }
+                            vehicleType.contains("BUS", ignoreCase = true) -> {
+                                custoTotal += calcularPrecoSimples(stepDistance)
+                            }
+                        }
+                    }
+                }
+
+                if (custoTotal > 0) {
+                    val totalCostText = TextView(this).apply {
+                        text = "Custo estimado (aproximado): €%.2f".format(custoTotal)
+                        textSize = 16f
+                        setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply { topMargin = 4 }
+                    }
+                    summaryLayout.addView(totalCostText)
+                }
             }
 
             summaryCard.addView(summaryLayout)
             routesContainer.addView(summaryCard)
 
-            // Renderizar passos da rota
+            // Passos da rota
             for (i in 0 until steps.length()) {
                 val step = steps.getJSONObject(i)
                 val travelMode = step.getString("travel_mode")
@@ -340,9 +347,7 @@ class VerRotas : AppCompatActivity() {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setMargins(16, 8, 16, 8)
-                    }
+                    ).apply { setMargins(16, 8, 16, 8) }
                     radius = 8f
                     cardElevation = 2f
                     setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
@@ -359,7 +364,7 @@ class VerRotas : AppCompatActivity() {
 
                 val iconLayout = LinearLayout(this).apply {
                     layoutParams = LinearLayout.LayoutParams(48, LinearLayout.LayoutParams.MATCH_PARENT)
-                    gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
+                    gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
                     setPadding(0, 4, 16, 0)
                 }
 
@@ -368,6 +373,7 @@ class VerRotas : AppCompatActivity() {
                     setImageResource(getStepIcon(travelMode))
                     setColorFilter(ContextCompat.getColor(context, getStepIconColor(travelMode)))
                 }
+
                 iconLayout.addView(stepIcon)
                 stepLayout.addView(iconLayout)
 
@@ -380,29 +386,23 @@ class VerRotas : AppCompatActivity() {
                 }
 
                 val instructionText = TextView(this).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
                     text = getFormattedInstruction(instruction, travelMode)
                     textSize = 16f
                     setTextColor(ContextCompat.getColor(context, R.color.text_primary))
                 }
-                contentLayout.addView(instructionText)
 
                 val detailsText = TextView(this).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        topMargin = 4
-                    }
                     text = "$stepDistance · $stepDuration"
                     textSize = 14f
                     setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply { topMargin = 4 }
                 }
-                contentLayout.addView(detailsText)
 
+                contentLayout.addView(instructionText)
+                contentLayout.addView(detailsText)
                 stepLayout.addView(contentLayout)
                 stepCard.addView(stepLayout)
                 routesContainer.addView(stepCard)
@@ -413,6 +413,7 @@ class VerRotas : AppCompatActivity() {
             showError("Erro ao exibir rota: ${e.message}")
         }
     }
+
 
     private fun calcularPrecoSimples(distanciaKm: Double): Double {
         val precoBase = 1.20  // valor base
