@@ -271,6 +271,26 @@ class VerRotas : AppCompatActivity() {
             }
             summaryLayout.addView(distanceText)
 
+            // Exibir o custo (caso exista)
+            val fare = if (route.has("fare")) route.getJSONObject("fare").getString("text") else null
+            fare?.let {
+                val fareText = TextView(this).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        topMargin = 4
+                    }
+                    text = "Custo: $fare"
+                    textSize = 16f
+                    setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                }
+                summaryLayout.addView(fareText)
+            }
+
+            summaryCard.addView(summaryLayout)
+            routesContainer.addView(summaryCard)
+
             // Adicionar os passos da rota
             val steps = legs.getJSONArray("steps")
             for (i in 0 until steps.length()) {
@@ -302,7 +322,6 @@ class VerRotas : AppCompatActivity() {
                     setPadding(16, 16, 16, 16)
                 }
 
-                // Ícone para o tipo de passo
                 val iconLayout = LinearLayout(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
                         48,
@@ -320,7 +339,6 @@ class VerRotas : AppCompatActivity() {
                 iconLayout.addView(stepIcon)
                 stepLayout.addView(iconLayout)
 
-                // Conteúdo do passo
                 val contentLayout = LinearLayout(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -329,7 +347,6 @@ class VerRotas : AppCompatActivity() {
                     orientation = LinearLayout.VERTICAL
                 }
 
-                // Texto principal da instrução
                 val instructionText = TextView(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -341,7 +358,6 @@ class VerRotas : AppCompatActivity() {
                 }
                 contentLayout.addView(instructionText)
 
-                // Detalhes de distância e duração
                 val detailsText = TextView(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -355,7 +371,6 @@ class VerRotas : AppCompatActivity() {
                 }
                 contentLayout.addView(detailsText)
 
-                // Adicionar detalhes específicos para transporte público
                 if (travelMode == "TRANSIT") {
                     val transitDetails = step.getJSONObject("transit_details")
                     val line = transitDetails.getJSONObject("line")
@@ -415,6 +430,7 @@ class VerRotas : AppCompatActivity() {
             showError("Erro ao exibir rota: ${e.message}")
         }
     }
+
 
     private fun getStepIcon(travelMode: String): Int {
         return when (travelMode) {
