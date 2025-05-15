@@ -192,6 +192,8 @@ class VerRotas : AppCompatActivity() {
                             "&mode=$mode" +
                             "&alternatives=false" +
                             "&language=pt-PT" +
+                            "&transit_mode=bus|subway|train|tram" +  // Especificar modos de transporte
+                            "&transit_routing_preference=fewer_transfers" +  // Preferência por menos transferências
                             "&key=$apiKey"
 
                     URL(url).readText()
@@ -403,6 +405,105 @@ class VerRotas : AppCompatActivity() {
 
                 contentLayout.addView(instructionText)
                 contentLayout.addView(detailsText)
+
+                // Adicionar detalhes específicos para transporte público
+                if (travelMode == "TRANSIT") {
+                    val transitDetails = step.getJSONObject("transit_details")
+                    val line = transitDetails.getJSONObject("line")
+                    val vehicle = line.getJSONObject("vehicle")
+                    val vehicleType = vehicle.getString("type")
+
+                    // Obter informações detalhadas da linha
+                    val lineName = if (line.has("short_name") && !line.isNull("short_name")) {
+                        line.getString("short_name")
+                    } else if (line.has("name") && !line.isNull("name")) {
+                        line.getString("name")
+                    } else {
+                        ""
+                    }
+
+                    // Obter nome da agência
+                    val agencyName = if (line.has("agencies")) {
+                        line.getJSONArray("agencies").optJSONObject(0)?.optString("name") ?: ""
+                    } else ""
+
+                    // Obter estações de partida e chegada
+                    val departureStop = transitDetails.getJSONObject("departure_stop").getString("name")
+                    val arrivalStop = transitDetails.getJSONObject("arrival_stop").getString("name")
+                    val numStops = transitDetails.getInt("num_stops")
+
+                    // Criar layout para informações detalhadas do transporte
+                    val transitInfoLayout = LinearLayout(this).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply { topMargin = 8 }
+                        orientation = LinearLayout.VERTICAL
+                        setPadding(8, 8, 8, 8)
+                        setBackgroundColor(ContextCompat.getColor(context, R.color.background_light))
+                    }
+
+                    // Informações da linha e tipo de transporte
+                    val lineInfoText = TextView(this).apply {
+                        val transportType = getTransitTypeName(vehicleType)
+                        text = if (lineName.isNotEmpty()) {
+                            "$transportType $lineName${if (agencyName.isNotEmpty()) " • $agencyName" else ""}"
+                        } else {
+                            "$transportType${if (agencyName.isNotEmpty()) " • $agencyName" else ""}"
+                        }
+                        textSize = 14f
+                        setTypeface(null, Typeface.BOLD)
+                        setTextColor(ContextCompat.getColor(context, R.color.text_primary))
+                    }
+                    transitInfoLayout.addView(lineInfoText)
+
+                    // Informações de paradas
+                    val stopsInfoText = TextView(this).apply {
+                        text = "De $departureStop até $arrivalStop • $numStops ${if (numStops == 1) "paragem" else "paragens"}"
+                        textSize = 14f
+                        setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply { topMargin = 4 }
+                    }
+                    transitInfoLayout.addView(stopsInfoText)
+
+                    // Adicionar horários se disponíveis
+                    if (transitDetails.has("departure_time") && transitDetails.has("arrival_time")) {
+                        val departureTime = transitDetails.getJSONObject("departure_time").getString("text")
+                        val arrivalTime = transitDetails.getJSONObject("arrival_time").getString("text")
+
+                        val timeInfoText = TextView(this).apply {
+                            text = "Horário: $departureTime - $arrivalTime"
+                            textSize = 14f
+                            setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                            layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            ).apply { topMargin = 4 }
+                        }
+                        transitInfoLayout.addView(timeInfoText)
+                    }
+
+                    // Adicionar frequência se disponível
+                    if (transitDetails.has("headway")) {
+                        val headwayMinutes = transitDetails.getInt("headway") / 60
+                        val frequencyText = TextView(this).apply {
+                            text = "Frequência: a cada $headwayMinutes minutos"
+                            textSize = 14f
+                            setTextColor(ContextCompat.getColor(context, R.color.text_secondary))
+                            layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            ).apply { topMargin = 4 }
+                        }
+                        transitInfoLayout.addView(frequencyText)
+                    }
+
+                    contentLayout.addView(transitInfoLayout)
+                }
+
                 stepLayout.addView(contentLayout)
                 stepCard.addView(stepLayout)
                 routesContainer.addView(stepCard)
