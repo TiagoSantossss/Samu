@@ -602,4 +602,5 @@ class VerRotas : AppCompatActivity() {
         coroutineScope.cancel()
     }
 
+
 }
